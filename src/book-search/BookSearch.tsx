@@ -1,24 +1,45 @@
 import React, { useEffect, useState } from "react";
 import { getBooksByType } from "./book-search.service";
-
+import { Book, IBook } from "./Book";
+import { BookList, IBookList } from "./BookList";
 
 const BookSearch = () => {
     const [bookType, updateBookType] = useState("");
     const [bookTypeToSearch, updateBookTypeToSearch] = useState("");
-    const [allAvailableBooks, setAllAvailableBooks] = useState([]);
-    async function requestBooks() {
-        if (bookTypeToSearch) {
-            const allBooks = await getBooksByType(bookTypeToSearch);
-            setAllAvailableBooks(allBooks);
-        }
-    }
+    const [allAvailableBooks, setAllAvailableBooks] = useState<IBook[]>([]);
 
     useEffect(() => {
         async function getAllBooks() {
-            await requestBooks();
+            if (bookTypeToSearch) {
+                const test = await getBooksByType(bookTypeToSearch);
+                const { items } = await getBooksByType(bookTypeToSearch);
+                if (items) {                        
+                    const searchResult: IBook[] = [];
+                    items.forEach((book: any) => {
+                        const { volumeInfo } = book;
+                        searchResult.push({
+                            image: volumeInfo.imageLinks ? volumeInfo.imageLinks.thumbnail : '',
+                            title: volumeInfo.title,
+                            authors: volumeInfo.authors,
+                            publisher: volumeInfo.publisher,
+                            published: volumeInfo.publishedDate,
+                            description: volumeInfo.description,
+                            id: book.id
+                        });
+                    });
+                    
+                    setAllAvailableBooks(searchResult);
+    
+                } else {
+                    // throw error; 
+                }
+
+            }   
         }
+
         getAllBooks();
     }, [bookTypeToSearch]);
+
     return (
             <>
                 <div className="book--container">
@@ -26,9 +47,8 @@ const BookSearch = () => {
                         <div>
                             <form
                                 onSubmit={(e) => {
-                                    debugger;
                                     e.preventDefault();
-                                   updateBookTypeToSearch(bookType)
+                                    updateBookTypeToSearch(bookType)
                                 }}
                             >
                                 <input
@@ -59,7 +79,8 @@ const BookSearch = () => {
                         </div>
                     </div>
                 </div>
-                {                <pre>{JSON.stringify(allAvailableBooks, null, 4)}</pre>
+                {                
+                    <BookList books={allAvailableBooks} />
                 }
             </>
     );
