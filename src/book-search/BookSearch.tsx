@@ -87,6 +87,7 @@ const BookSearch = () => {
                                     autoFocus
                                     name="gsearch"
                                     type="search"
+                                    aria-labelledby="booksearch"
                                     value={bookType}
                                     placeholder="Search for books to add to your reading list and press Enter"
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => updateBookType(e.target.value)}
@@ -99,6 +100,8 @@ const BookSearch = () => {
                 </div>
                 
                 <div className="list-whishlist-container">
+                    {allAvailableBooks.length == 0 && bookType && <p className="loading">loading...</p>}
+
                     {allAvailableBooks.length > 0 && (
                         <div className="list">
                             <BookList wishListBooks={wishList} addBookToWishList={addBookToWishList} books={allAvailableBooks} />

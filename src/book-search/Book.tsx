@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/Book.scss';
+import "../styles/Book.scss";
 
 export interface BookType  {
     id: string,
@@ -28,19 +28,19 @@ export class Book extends React.PureComponent<BookType & BookActions> {
                     </div>
                     {
                         !hideWishListButton && (
-                            <div className='book-wishlist-button-container'>
-                                <button type="button" onClick={() => this.props.addBookToWishList(index) }>Add to wishlist</button>
+                            <div className="book-wishlist-button-container">
+                                <button data-testid="wishlist-button" type="button" onClick={() => this.props.addBookToWishList(index) }>Add to wishlist</button>
                             </div>
                         )
                     }
                 </div>
                 <div className="book-info-container">
-                    <h1>{title}</h1>
+                    <h1 data-testid="book-title">{title}</h1>
                     <div className="book-authors-container">
                         {authors && authors?.map((author, index) => index === authors.length - 1 ? (<b key={index}>{author}</b>) : <b key={index}> {author}, &nbsp;</b> )}
                     </div>
-                    <div className='book-publisher'><p>{publisher} &nbsp;</p> <p>{this.formatDate(published)}</p></div>
-                    <p>{description}</p>
+                    <div data-testid="published-date" className="book-publisher"><p>{publisher} &nbsp;</p> <p>{this.formatDate(published)}</p></div>
+                    <p data-testid="book-description">{description}</p>
                 </div>
             </div>
         )
@@ -51,6 +51,6 @@ export class Book extends React.PureComponent<BookType & BookActions> {
             const d = new Date(date);
             return d.getFullYear();    
         }
-        return '';
+        return "";
     }
 };
