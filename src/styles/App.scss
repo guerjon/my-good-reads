@@ -100,6 +100,7 @@ main {
   min-height: 50vh;
   font-size: 1.5rem;
   color: $gray40;
+  width: 100%;
 }
 
 form {
@@ -128,4 +129,17 @@ form {
 }
 .sidebar {
   flex-grow: 1;
+}
+
+.list-whishlist-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.list-whishlist-container .list {
+  width: 75%; 
+}
+
+.list-whishlist-container .wish-list {
+  width: 25%;
 }

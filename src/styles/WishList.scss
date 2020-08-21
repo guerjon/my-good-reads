@@ -1,0 +1,20 @@
+.whish-list-container {
+    display: flexy;
+    justify-items: center;  
+    align-items: center; 
+}
+
+.book-list-wishlist {
+  display: flex;  
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-list-wishlist a {
+    margin-left: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    width: 25px;
+}
+

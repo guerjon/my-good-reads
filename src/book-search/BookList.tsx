@@ -1,10 +1,12 @@
-import { IBook, Book } from "./Book";
+import { BookType, Book } from "./Book";
 import React from 'react';
 import '../styles/BookList.scss';
 
 
 export interface IBookList {
-    books: IBook[]
+    books: BookType[],
+    wishListBooks: BookType[],
+    addBookToWishList: ( index: number ) => void,
 } 
 
 export class BookList extends React.PureComponent<IBookList> {
@@ -12,11 +14,14 @@ export class BookList extends React.PureComponent<IBookList> {
         return (
             <ul className="book-list">
                 {
-                    this.props.books.map((book: IBook) => (
-                        <li key={book.id}>
-                            <Book {...book} />
-                        </li>
-                    ))
+                    this.props.books.map((book: BookType, index: number) => {
+                        const hideWishListButton = this.props.wishListBooks.find(wishListBook => book.id === wishListBook.id) ? true : false;
+                        return(
+                            <li key={index}>
+                                <Book hideWishListButton={hideWishListButton} index={index} addBookToWishList={this.props.addBookToWishList} {...book} />
+                            </li>
+                        );
+                    })
                 }
             </ul>
         )
